@@ -42,8 +42,11 @@ NAME		=	executable
 FLAGS		=	-Wall -Wextra -Werror
 CC			=	gcc
 
+SRC_DIR		=	src
+INC_DIR		=	includes
+
 # Finds all directories from include
-INC_DIRS	=	$(shell find includes -type d)
+INC_DIRS	=	$(shell find $(INC_DIR) -type d)
 
 # Adds -I to each element frm above
 INC_PROJ	=	$(foreach d, $(INC_DIRS), -I $d)
@@ -55,7 +58,7 @@ COMPILE		=	$(CC) $(FLAGS) $(INCLUDES)
 
 # Find all '.c' files in 'src' recursively
 
-SRC			=	$(shell find src -name '*.c')
+SRC			=	$(shell find $(SRC_DIR) -name '*.c')
 
 # This will contain an array of all SRC files without path.
 # Ex: src/dir1/file.c --> file.c
@@ -99,25 +102,25 @@ endef
 # $(OBJDIR)/%.o: src/*/*/%.c looks in directories one branch deeper
 # etc
 
-$(OBJDIR)/%.o: src/%.c
+$(OBJDIR)/%.o: $(SRC_DIR)/%.c
 	$(call COMPILE_FILE,$<,$@)
 
-$(OBJDIR)/%.o: src/*/%.c
+$(OBJDIR)/%.o: $(SRC_DIR)/*/%.c
 	$(call COMPILE_FILE,$<,$@)
 
-$(OBJDIR)/%.o: src/*/*/%.c
+$(OBJDIR)/%.o: $(SRC_DIR)/*/*/%.c
 	$(call COMPILE_FILE,$<,$@)
 
-$(OBJDIR)/%.o: src/*/*/*/%.c
+$(OBJDIR)/%.o: $(SRC_DIR)/*/*/*/%.c
 	$(call COMPILE_FILE,$<,$@)
 
-$(OBJDIR)/%.o: src/*/*/*/*/%.c
+$(OBJDIR)/%.o: $(SRC_DIR)/*/*/*/*/%.c
 	$(call COMPILE_FILE,$<,$@)
 
-$(OBJDIR)/%.o: src/*/*/*/*/*/%.c
+$(OBJDIR)/%.o: $(SRC_DIR)/*/*/*/*/*/%.c
 	$(call COMPILE_FILE,$<,$@)
 
-$(OBJDIR)/%.o: src/*/*/*/*/*/%.c
+$(OBJDIR)/%.o: $(SRC_DIR)/*/*/*/*/*/%.c
 	$(call COMPILE_FILE,$<,$@)
 
 
